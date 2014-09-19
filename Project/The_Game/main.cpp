@@ -9,7 +9,7 @@ using namespace std;
 
 ALLEGRO_KEYBOARD_STATE klawiatura;
 ALLEGRO_DISPLAY * okno;
-ALLEGRO_FONT * font, *foot_font;
+ALLEGRO_FONT * font, *foot_font, *menu_font;
 ALLEGRO_TIMER * timer;
 ALLEGRO_EVENT_QUEUE * queue;
 
@@ -101,6 +101,7 @@ int main(void)
 	al_install_keyboard();
 
 	font = al_load_font("Times.ttf", 72, 0);
+	menu_font = al_load_font("Times.ttf", 36, 0);
 	foot_font = al_load_font("Times.ttf", FOOTER_SIZE - 4, 0);
 
 	if (!font || !foot_font)
