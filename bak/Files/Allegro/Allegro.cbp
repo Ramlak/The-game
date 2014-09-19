@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Allegro" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug Win32">
+				<Option output="Allegro" prefix_auto="1" extension_auto="1" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add directory="C:/Libs/Allegro/include" />
+				</Compiler>
+				<Linker>
+					<Add library="allegro-5.0.10-monolith-md-debug.lib" />
+					<Add directory="C:/Libs/Allegro/lib" />
+				</Linker>
+			</Target>
+			<Target title="Release Win32">
+				<Option output="Allegro" prefix_auto="1" extension_auto="1" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add directory="C:/Libs/Allegro/include" />
+				</Compiler>
+				<Linker>
+					<Add library="allegro-5.0.10-monolith-md.lib." />
+					<Add directory="C:/Libs/Allegro/lib" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="MyComponent.cpp" />
+		<Unit filename="MyComponent.h" />
+		<Unit filename="bullet.h" />
+		<Unit filename="items.cpp" />
+		<Unit filename="main.cpp" />
+		<Unit filename="player.h" />
+		<Unit filename="stdafx.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
