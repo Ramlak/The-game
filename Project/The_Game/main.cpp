@@ -94,6 +94,7 @@ int test_deads()
 
 int game(void) {
 	players.clear();
+	bullets.clear();
 	players.push_back(player(0, 0, al_map_rgb(255, 0, 0), ALLEGRO_KEY_W, ALLEGRO_KEY_S, ALLEGRO_KEY_A, ALLEGRO_KEY_D, ALLEGRO_KEY_C, ALLEGRO_KEY_V, ALLEGRO_KEY_B, &players, &klawiatura));
 	players.push_back(player(MAP_SIZE - BLOCK_SIZE, 0, al_map_rgb(0, 255, 0), ALLEGRO_KEY_UP, ALLEGRO_KEY_DOWN, ALLEGRO_KEY_LEFT, ALLEGRO_KEY_RIGHT, ALLEGRO_KEY_SLASH, ALLEGRO_KEY_COMMA, ALLEGRO_KEY_FULLSTOP, &players, &klawiatura));
 
@@ -186,8 +187,8 @@ int m_menu(void) {
 			}
 			main_menu.action(MENU_RIGHT);
 		}
-		if (al_key_down(&klawiatura, ALLEGRO_KEY_SPACE)) {
-			while (al_key_down(&klawiatura, ALLEGRO_KEY_SPACE)) {
+		if (al_key_down(&klawiatura, ALLEGRO_KEY_SPACE) || al_key_down(&klawiatura, ALLEGRO_KEY_ENTER)) {
+			while (al_key_down(&klawiatura, ALLEGRO_KEY_SPACE) || al_key_down(&klawiatura, ALLEGRO_KEY_ENTER)) {
 				al_get_keyboard_state(&klawiatura);
 			}
 			if (main_menu.action(MENU_ACT) == 1) game();
@@ -228,7 +229,6 @@ int main(void)
 
 	m_menu();
 
-EXIT:
 	bullets.clear();
 	players.clear();
 	al_destroy_timer(timer);
