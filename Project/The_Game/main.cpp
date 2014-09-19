@@ -98,7 +98,8 @@ int game(void) {
 	players.clear();
 	bullets.clear();
 	players.push_back(player(0, 0, al_map_rgb(255, 0, 0), ALLEGRO_KEY_W, ALLEGRO_KEY_S, ALLEGRO_KEY_A, ALLEGRO_KEY_D, ALLEGRO_KEY_C, ALLEGRO_KEY_V, ALLEGRO_KEY_B, &players, &klawiatura));
-	players.push_back(player(MAP_SIZE - BLOCK_SIZE, 0, al_map_rgb(0, 255, 0), ALLEGRO_KEY_UP, ALLEGRO_KEY_DOWN, ALLEGRO_KEY_LEFT, ALLEGRO_KEY_RIGHT, ALLEGRO_KEY_SLASH, ALLEGRO_KEY_COMMA, ALLEGRO_KEY_FULLSTOP, &players, &klawiatura));
+	players.push_back(player(MAP_SIZE - BLOCK_SIZE, MAP_SIZE - BLOCK_SIZE, al_map_rgb(0, 255, 0), ALLEGRO_KEY_UP, ALLEGRO_KEY_DOWN, ALLEGRO_KEY_LEFT, ALLEGRO_KEY_RIGHT, ALLEGRO_KEY_SLASH, ALLEGRO_KEY_COMMA, ALLEGRO_KEY_FULLSTOP, &players, &klawiatura));
+	players[1].gun_alpha = 3.1415926;
 
 	while (!al_key_down(&klawiatura, ALLEGRO_KEY_ESCAPE))
 	{
@@ -157,9 +158,11 @@ int m_menu(void) {
 	//al_play_sample(shoot, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 
 	menu main_menu;
-	float x;
+	float x = 1.0, y = 25.0, z = 200.0;
 	main_menu.add_action("START", 1);
-	main_menu.add_value("OPTION", &x, 0.0, 2.0, 0.1);
+	main_menu.add_value("SPEED", &x, 1.0, 3.0, 0.1);
+	main_menu.add_value("AMMO", &y, 10.0, 50.0, 2.5);
+	main_menu.add_value("HEALTH", &z, 100.0, 500.0, 50.0);
 	main_menu.add_action("EXIT", 2);
 	while (!al_key_down(&klawiatura, ALLEGRO_KEY_ESCAPE)) {
 		al_wait_for_event(queue, &event);
