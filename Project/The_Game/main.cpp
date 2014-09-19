@@ -12,6 +12,7 @@ ALLEGRO_DISPLAY * okno;
 ALLEGRO_FONT * font, *foot_font, *menu_font;
 ALLEGRO_TIMER * timer;
 ALLEGRO_EVENT_QUEUE * queue;
+ALLEGRO_EVENT event;
 
 vector < player > players;
 list < bullet > bullets;
@@ -91,51 +92,10 @@ int test_deads()
 	return 0;
 }
 
-
-int main(void)
-{
-	al_init();
-	al_init_primitives_addon();
-	al_init_font_addon();
-	al_init_ttf_addon();
-	al_install_keyboard();
-
-	font = al_load_font("Times.ttf", 72, 0);
-	menu_font = al_load_font("Times.ttf", 36, 0);
-	foot_font = al_load_font("Times.ttf", FOOTER_SIZE - 4, 0);
-
-	if (!font || !foot_font)
-	{
-		MessageBox(NULL, "Cannot load font!", "Error", MB_OK);
-		return 1;
-	}
-
-	al_set_new_display_flags(ALLEGRO_WINDOWED);
-	okno = al_create_display(MAP_SIZE, MAP_SIZE + FOOTER_SIZE);
-	al_set_window_title(okno, "Gra");
-	queue = al_create_event_queue();
-	timer = al_create_timer(1.0 / FPS);
-
-	al_start_timer(timer);
-	
-	ALLEGRO_EVENT event;
-	al_register_event_source(queue, al_get_display_event_source(okno));
-	al_register_event_source(queue, al_get_timer_event_source(timer));
-
+int game(void) {
+	players.clear();
 	players.push_back(player(0, 0, al_map_rgb(255, 0, 0), ALLEGRO_KEY_W, ALLEGRO_KEY_S, ALLEGRO_KEY_A, ALLEGRO_KEY_D, ALLEGRO_KEY_C, ALLEGRO_KEY_V, ALLEGRO_KEY_B, &players, &klawiatura));
 	players.push_back(player(MAP_SIZE - BLOCK_SIZE, 0, al_map_rgb(0, 255, 0), ALLEGRO_KEY_UP, ALLEGRO_KEY_DOWN, ALLEGRO_KEY_LEFT, ALLEGRO_KEY_RIGHT, ALLEGRO_KEY_SLASH, ALLEGRO_KEY_COMMA, ALLEGRO_KEY_FULLSTOP, &players, &klawiatura));
-	
-	menu main_menu;
-	float x;
-	main_menu.add_action("START", 1);
-	main_menu.add_value("OPTION",&x,0.0,1.0,0.1);
-	main_menu.add_action("EXIT", 1);
-
-	while (!al_key_down(&klawiatura, ALLEGRO_KEY_ESCAPE)) {
-		al_get_keyboard_state(&klawiatura);
-		main_menu.draw();
-
-	}
 
 	while (!al_key_down(&klawiatura, ALLEGRO_KEY_ESCAPE))
 	{
@@ -177,21 +137,95 @@ int main(void)
 				delete[] buffer;
 				draw_footer();
 				al_flip_display();
-				while (!al_key_down(&klawiatura, ALLEGRO_KEY_ESCAPE))
-				{
-					al_get_keyboard_state(&klawiatura);
-					al_wait_for_event(queue, &event);
-					if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-						goto EXIT;
-				}
-				goto EXIT;
+				al_rest(2.0);
+				return -1;
 			}
 		}
 		if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-			goto EXIT;
+			return -1;
 
 		al_flip_display();
 	}
+
+}
+
+int m_menu(void) {
+
+	menu main_menu;
+	float x;
+	main_menu.add_action("START", 1);
+	main_menu.add_value("OPTION", &x, 0.0, 1.0, 0.1);
+	main_menu.add_action("EXIT", 2);
+
+	while (!al_key_down(&klawiatura, ALLEGRO_KEY_ESCAPE)) {
+		al_get_keyboard_state(&klawiatura);
+		main_menu.draw();
+		if (al_key_down(&klawiatura, ALLEGRO_KEY_UP)) {
+			while (al_key_down(&klawiatura, ALLEGRO_KEY_UP)) {
+				al_get_keyboard_state(&klawiatura);
+			}
+			main_menu.action(MENU_UP);
+		}
+		if (al_key_down(&klawiatura, ALLEGRO_KEY_DOWN)) {
+			while (al_key_down(&klawiatura, ALLEGRO_KEY_DOWN)) {
+				al_get_keyboard_state(&klawiatura);
+			}
+			main_menu.action(MENU_DOWN);
+		}
+		if (al_key_down(&klawiatura, ALLEGRO_KEY_LEFT)) {
+			while (al_key_down(&klawiatura, ALLEGRO_KEY_LEFT)) {
+				al_get_keyboard_state(&klawiatura);
+			}
+			main_menu.action(MENU_LEFT);
+		}
+		if (al_key_down(&klawiatura, ALLEGRO_KEY_RIGHT)) {
+			while (al_key_down(&klawiatura, ALLEGRO_KEY_RIGHT)) {
+				al_get_keyboard_state(&klawiatura);
+			}
+			main_menu.action(MENU_RIGHT);
+		}
+		if (al_key_down(&klawiatura, ALLEGRO_KEY_SPACE)) {
+			while (al_key_down(&klawiatura, ALLEGRO_KEY_SPACE)) {
+				al_get_keyboard_state(&klawiatura);
+			}
+			if (main_menu.action(MENU_ACT) == 1) game();
+			else break;
+		}
+	}
+	return -1;
+}
+
+int main(void)
+{
+	al_init();
+	al_init_primitives_addon();
+	al_init_font_addon();
+	al_init_ttf_addon();
+	al_install_keyboard();
+
+	font = al_load_font("Times.ttf", 72, 0);
+	menu_font = al_load_font("Times.ttf", 36, 0);
+	foot_font = al_load_font("Times.ttf", FOOTER_SIZE - 4, 0);
+
+	if (!font || !foot_font)
+	{
+		MessageBox(NULL, "Cannot load font!", "Error", MB_OK);
+		return 1;
+	}
+
+	al_set_new_display_flags(ALLEGRO_WINDOWED);
+	okno = al_create_display(MAP_SIZE, MAP_SIZE + FOOTER_SIZE);
+	al_set_window_title(okno, "Gra");
+	queue = al_create_event_queue();
+	timer = al_create_timer(1.0 / FPS);
+
+	al_start_timer(timer);
+	
+	al_register_event_source(queue, al_get_display_event_source(okno));
+	al_register_event_source(queue, al_get_timer_event_source(timer));
+
+	m_menu();
+
 EXIT:
 	bullets.clear();
 	players.clear();

@@ -95,5 +95,6 @@ inline menu::entry::entry(const char *name, float* value, float min, float max, 
 	this->min = min;
 	this->max = max;
 	this->step = step;
+	this->action = -1;
 }
 #endif
