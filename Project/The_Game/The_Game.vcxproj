@@ -10,6 +10,17 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bullet.h" />
+    <ClInclude Include="menu.h" />
+    <ClInclude Include="player.h" />
+    <ClInclude Include="stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="items.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="menu.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{16187074-015F-478B-A6B4-0AB25FA4FFBF}</ProjectGuid>
     <RootNamespace>The_Game</RootNamespace>
@@ -65,20 +76,6 @@
       <AdditionalDependencies>allegro-5.0.10-monolith-md.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\..\The-game\Files\Allegro\bullet.h" />
-    <ClInclude Include="..\..\..\..\The-game\Files\Allegro\menu.h" />
-    <ClInclude Include="..\..\..\..\The-game\Files\Allegro\player.h" />
-    <ClInclude Include="..\..\..\..\The-game\Files\Allegro\stdafx.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\..\The-game\Files\Allegro\items.cpp" />
-    <ClCompile Include="..\..\..\..\The-game\Files\Allegro\main.cpp" />
-    <ClCompile Include="..\..\..\..\The-game\Files\Allegro\menu.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="..\..\..\..\The-game\Files\Allegro\Times.ttf" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
