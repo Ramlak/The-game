@@ -13,6 +13,8 @@ ALLEGRO_FONT * font, *foot_font, *menu_font;
 ALLEGRO_TIMER * timer;
 ALLEGRO_EVENT_QUEUE * queue;
 ALLEGRO_EVENT event;
+ALLEGRO_SAMPLE * sample;
+
 
 vector < player > players;
 list < bullet > bullets;
@@ -151,6 +153,7 @@ int game(void) {
 }
 
 int m_menu(void) {
+	al_play_sample(sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 
 	menu main_menu;
 	float x;
@@ -205,7 +208,13 @@ int main(void)
 	al_init_primitives_addon();
 	al_init_font_addon();
 	al_init_ttf_addon();
+	al_init_acodec_addon();
+
+	al_install_audio();
 	al_install_keyboard();
+
+	al_reserve_samples(1);
+	sample = al_load_sample("");
 
 	font = al_load_font("Times.ttf", 72, 0);
 	menu_font = al_load_font("Times.ttf", 36, 0);
@@ -223,6 +232,7 @@ int main(void)
 	queue = al_create_event_queue();
 	timer = al_create_timer(1.0 / FPS);
 
+	al_hide_mouse_cursor(okno);
 	al_start_timer(timer);
 	
 	al_register_event_source(queue, al_get_display_event_source(okno));
@@ -234,5 +244,6 @@ int main(void)
 	players.clear();
 	al_destroy_timer(timer);
 	al_destroy_display(okno);
+	al_destroy_sample(sample);
 	return 0;
 }
