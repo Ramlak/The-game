@@ -133,11 +133,8 @@ bool player::is_in(float X, float Y)
 
 void player::draw()
 {
-	if (this->alive)
-	{
-		al_draw_rectangle(this->x + THICKNESS / 2, this->y + THICKNESS / 2, this->x + BLOCK_SIZE - THICKNESS / 2, this->y + BLOCK_SIZE - THICKNESS / 2, this->color, THICKNESS);
-		al_draw_line(this->x + BLOCK_SIZE / 2, this->y + BLOCK_SIZE / 2, this->x + BLOCK_SIZE / 2 + cos(this->gun_alpha) * (BLOCK_SIZE / 2) * GUN_SIZE, this->y + BLOCK_SIZE / 2 - sin(this->gun_alpha) * (BLOCK_SIZE / 2) * GUN_SIZE, al_map_rgb(255, 255, 255), 2);
-	}
+	al_draw_rectangle(this->x + THICKNESS / 2, this->y + THICKNESS / 2, this->x + BLOCK_SIZE - THICKNESS / 2, this->y + BLOCK_SIZE - THICKNESS / 2, this->color, THICKNESS);
+	al_draw_line(this->x + BLOCK_SIZE / 2, this->y + BLOCK_SIZE / 2, this->x + BLOCK_SIZE / 2 + cos(this->gun_alpha) * (BLOCK_SIZE / 2) * GUN_SIZE, this->y + BLOCK_SIZE / 2 - sin(this->gun_alpha) * (BLOCK_SIZE / 2) * GUN_SIZE, al_map_rgb(255, 255, 255), 2);
 }
 
 bool player::collision(player &P)

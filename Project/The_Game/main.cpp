@@ -214,7 +214,10 @@ int main(void)
 	al_install_keyboard();
 
 	al_reserve_samples(1);
-	sample = al_load_sample("");
+	if (!(sample = al_load_sample("hydrogen.ogg")))
+	{
+		Message("Cannot load sample!");
+	}
 
 	font = al_load_font("Times.ttf", 72, 0);
 	menu_font = al_load_font("Times.ttf", 36, 0);
