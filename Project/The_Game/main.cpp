@@ -13,7 +13,7 @@ ALLEGRO_FONT * font, *foot_font, *menu_font;
 ALLEGRO_TIMER * timer;
 ALLEGRO_EVENT_QUEUE * queue;
 ALLEGRO_EVENT event;
-ALLEGRO_SAMPLE * sample;
+ALLEGRO_SAMPLE *theme, *shoot;
 
 
 vector < player > players;
@@ -120,7 +120,7 @@ int game(void) {
 				}
 
 				FOR(players)
-					players[i].shoot(bullets);
+					players[i].shoot(bullets, shoot);
 
 				check_collisions();
 				check_hits();
@@ -153,7 +153,8 @@ int game(void) {
 }
 
 int m_menu(void) {
-	al_play_sample(sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
+	al_play_sample(theme, 0.7, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
+	//al_play_sample(shoot, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 
 	menu main_menu;
 	float x;
@@ -213,8 +214,8 @@ int main(void)
 	al_install_audio();
 	al_install_keyboard();
 
-	al_reserve_samples(1);
-	if (!(sample = al_load_sample("hydrogen.ogg")))
+	al_reserve_samples(2);
+	if (!(theme = al_load_sample("hydrogen.ogg")) || !(shoot = al_load_sample("shoot.ogg")))
 	{
 		Message("Cannot load sample!");
 	}
@@ -247,6 +248,7 @@ int main(void)
 	players.clear();
 	al_destroy_timer(timer);
 	al_destroy_display(okno);
-	al_destroy_sample(sample);
+	al_destroy_sample(theme);
+	al_destroy_sample(shoot);
 	return 0;
 }

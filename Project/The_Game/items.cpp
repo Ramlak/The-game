@@ -142,11 +142,12 @@ bool player::collision(player &P)
 	return this->is_in(P.x, P.y) || this->is_in(P.x + BLOCK_SIZE, P.y) || this->is_in(P.x + BLOCK_SIZE, P.y + BLOCK_SIZE) || this->is_in(P.x, P.y + BLOCK_SIZE);
 }
 
-void player::shoot(list < bullet > &bullets)
+void player::shoot(list < bullet > &bullets, ALLEGRO_SAMPLE * shoot)
 {
 	if (al_key_down(this->klawiatura, this->key_shoot) && this->ammo > 0)
 	{
 			bullets.push_back(bullet(this));
 			this->ammo--;
+			al_play_sample(shoot, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 	}
 }

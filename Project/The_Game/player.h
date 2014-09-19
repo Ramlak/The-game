@@ -29,7 +29,7 @@ struct player
 	void change_state();
 	void step();
 	void move();
-	void shoot(list < bullet > &bullets);
+	void shoot(list < bullet > &bullets, ALLEGRO_SAMPLE * shoot);
 };
 
 #endif
