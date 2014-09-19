@@ -82,6 +82,7 @@ inline int menu::action(int a) {
 			return x.action;
 		break;
 	}
+	return -1;
 }
 inline menu::entry::entry(const char *name, int action) {
 	this->name = name;

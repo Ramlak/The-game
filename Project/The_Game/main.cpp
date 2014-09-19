@@ -147,7 +147,7 @@ int game(void) {
 
 		al_flip_display();
 	}
-
+	return -1;
 }
 
 int m_menu(void) {

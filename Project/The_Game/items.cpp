@@ -58,16 +58,19 @@ void player::change_state()
 {
 	if (this->hp <= 0)
 		this->alive = false;
-
-	if (this->ammo == 0)
-	{
-		if (this->counter++ > 300)
+	if (ammo) {
+		if (++this->counter > 3)
 		{
+		this->counter = 0;
+		this->ammo += (ammo == MAX_AMMO) ? 0 : 1;
+		}
+	}	
+	else {
+		if (++this->counter > 50){
 			this->counter = 0;
-			this->ammo = MAX_AMMO;
+			++this->ammo;
 		}
 	}
-
 	float v1 = this->v_x * this->v_x + this->v_y * this->v_y;
 
 	if (al_key_down(this->klawiatura, this->key_gun_left))
