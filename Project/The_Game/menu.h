@@ -29,7 +29,7 @@ struct menu {
 	std::vector<entry> entries;
 
 	inline int action(int a);
-	inline void add_value(const char *name, float* value, float min, float max, float step = 1.0);
+	inline void add_value(const char *name, float* value, float min, float max, float step);
 	inline void add_action(const char *name, int action);
 	inline menu() {
 		active = 0;
