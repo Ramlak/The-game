@@ -154,10 +154,12 @@ int m_menu(void) {
 	menu main_menu;
 	float x;
 	main_menu.add_action("START", 1);
-	main_menu.add_value("OPTION", &x, 0.0, 1.0, 0.1);
 	main_menu.add_action("EXIT", 2);
-
 	while (!al_key_down(&klawiatura, ALLEGRO_KEY_ESCAPE)) {
+		al_wait_for_event(queue, &event);
+		if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+			break;
+		}
 		al_get_keyboard_state(&klawiatura);
 		main_menu.draw();
 		if (al_key_down(&klawiatura, ALLEGRO_KEY_UP)) {
