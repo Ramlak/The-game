@@ -18,6 +18,10 @@ $RECYCLE.BIN/
 # Operating System Files
 # =========================
 *.obj
+*.tlog
+*.pdb
+*.idb
+*.ilk
 # OSX
 # =========================
 
