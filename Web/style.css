@@ -1,0 +1,23 @@
+ body
+ {
+ background-color: #000000;
+ font-family: "Times New Roman", Times, Serif;
+ color: #ffffff; 
+ }
+ 
+ h1
+ {
+	font-family: "Times New Roman", Times, Serif;
+	font-weight: normal;
+ }
+ 
+ #main
+{
+    position:fixed;
+    top: 40%;
+    left: 50%;
+    width: 600px;
+    height: 300px;
+    margin-top: -150px; /*set to a negative number 1/2 of your height*/
+    margin-left: -300px; /*set to a negative number 1/2 of your width*/
+}
