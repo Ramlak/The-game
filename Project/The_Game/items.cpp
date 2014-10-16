@@ -5,6 +5,7 @@
 
 float HP = 200.0;
 float MAX_AMMO = 200.0;
+float SPEED = 1.0;
 
 // BULLET
 

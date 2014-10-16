@@ -15,12 +15,12 @@
 
 #define BLOCK_SIZE 15
 #define MAP_SIZE 600
-#define BLOCK_ACCELERATION 0.02
-#define BLOCK_MAX_SPEED 1.5
+#define BLOCK_ACCELERATION 0.02*SPEED
+#define BLOCK_MAX_SPEED 1.5*SPEED
 #define BULLET_SIZE 2
 #define GUN_SIZE 1.8
 #define FOOTER_SIZE 20
-#define BULLET_SPEED 3
+#define BULLET_SPEED 3*SPEED
 #define THICKNESS 2
 #define FPS 300
 #define GUN_RESOLUTION 0.015
@@ -30,3 +30,4 @@
 //OPTIONS
 extern float MAX_AMMO;
 extern float HP;
+extern float SPEED;
