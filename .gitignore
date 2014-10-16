@@ -13,6 +13,9 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+*.rar
+*.zip
+setup.exe
 
 # =========================
 # Operating System Files
