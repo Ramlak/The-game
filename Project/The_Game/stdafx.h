@@ -9,6 +9,7 @@
 #include <allegro5/allegro_ttf.h>
 #include <vector>
 #include <list>
+#include <string>
 #include <cstdio>
 #include <cmath>
 

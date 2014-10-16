@@ -6,6 +6,8 @@
 float HP = 200.0;
 float MAX_AMMO = 200.0;
 float SPEED = 1.0;
+float PAN = 0;
+int GUNSOUND = 0;
 
 // BULLET
 
@@ -154,6 +156,7 @@ void player::shoot(list < bullet > &bullets, ALLEGRO_SAMPLE * shoot)
 	{
 			bullets.push_back(bullet(this));
 			this->ammo--;
-			al_play_sample(shoot, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+			++GUNSOUND;
+			PAN += 2.0*(this->x - MAP_SIZE/2) / MAP_SIZE;
 	}
 }

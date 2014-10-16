@@ -19,6 +19,10 @@ ALLEGRO_SAMPLE *theme, *shoot;
 vector < player > players;
 list < bullet > bullets;
 
+int music_on = 1;
+extern float PAN;
+extern int GUNSOUND;
+
 void Message(const char * a)
 {
 	MessageBox(NULL, a, "Error", MB_OK);
@@ -69,14 +73,17 @@ void draw_footer()
 {
 	FOR(players)
 	{
+		
 		if (players[i].alive)
 		{
 			al_draw_filled_rectangle(MAP_SIZE / players.size() * i, MAP_SIZE + 2, MAP_SIZE / players.size() * i + MAP_SIZE / players.size() * players[i].hp / HP, MAP_SIZE + FOOTER_SIZE, players[i].color);
 		}
 		char * buffer = new char[100];
+
 		sprintf_s(buffer, 100, "Player %d", i + 1);
 		al_draw_line(MAP_SIZE / players.size() * i, MAP_SIZE + 1, MAP_SIZE / players.size() * i + MAP_SIZE / players.size() * players[i].ammo / MAX_AMMO, MAP_SIZE + 1, al_map_rgb(255, 255, 255), 2);
 		al_draw_text(foot_font, al_map_rgb(0, 0, 255), MAP_SIZE / players.size() * i + MAP_SIZE / players.size() / 2, MAP_SIZE + 1, ALLEGRO_ALIGN_CENTER, buffer);
+
 		delete[] buffer;
 	}
 }
@@ -122,7 +129,13 @@ int game(void) {
 
 				FOR(players)
 					players[i].shoot(bullets, shoot);
+				if (GUNSOUND) {
+					al_play_sample(shoot, 1.0*(GUNSOUND+2)/4, PAN/GUNSOUND, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 
+
+					GUNSOUND = 0;
+					PAN = 0;
+				}
 				check_collisions();
 				check_hits();
 
@@ -153,17 +166,79 @@ int game(void) {
 	return -1;
 }
 
+int o_menu(void) {
+	menu options_menu;
+	int music = 1-music_on;
+	{
+		std::vector<std::string> options;
+		options.push_back(std::string("ON"));
+		options.push_back(std::string("OFF"));
+		options_menu.add_enum("MUSIC", &music, 2, options);
+	}
+	options_menu.add_value("SPEED", &SPEED, 1.0, 3.0, 0.1);
+	options_menu.add_value("AMMO", &MAX_AMMO, 100.0, 500.0, 25.0);
+	options_menu.add_value("HEALTH", &HP, 100.0, 500.0, 50.0);
+	options_menu.add_action("BACK", 4);
+	while (!al_key_down(&klawiatura, ALLEGRO_KEY_ESCAPE)) {
+		al_wait_for_event(queue, &event);
+		if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+			break;
+		}
+		al_get_keyboard_state(&klawiatura);
+		options_menu.draw();
+		if (al_key_down(&klawiatura, ALLEGRO_KEY_UP)) {
+			while (al_key_down(&klawiatura, ALLEGRO_KEY_UP)) {
+				al_get_keyboard_state(&klawiatura);
+			}
+			options_menu.action(MENU_UP);
+		}
+		if (al_key_down(&klawiatura, ALLEGRO_KEY_DOWN)) {
+			while (al_key_down(&klawiatura, ALLEGRO_KEY_DOWN)) {
+				al_get_keyboard_state(&klawiatura);
+			}
+			options_menu.action(MENU_DOWN);
+		}
+		if (al_key_down(&klawiatura, ALLEGRO_KEY_LEFT)) {
+			while (al_key_down(&klawiatura, ALLEGRO_KEY_LEFT)) {
+				al_get_keyboard_state(&klawiatura);
+			}
+			options_menu.action(MENU_LEFT);
+		}
+		if (al_key_down(&klawiatura, ALLEGRO_KEY_RIGHT)) {
+			while (al_key_down(&klawiatura, ALLEGRO_KEY_RIGHT)) {
+				al_get_keyboard_state(&klawiatura);
+			}
+			options_menu.action(MENU_RIGHT);
+		}
+		if (al_key_down(&klawiatura, ALLEGRO_KEY_SPACE) || al_key_down(&klawiatura, ALLEGRO_KEY_ENTER)) {
+			while (al_key_down(&klawiatura, ALLEGRO_KEY_SPACE) || al_key_down(&klawiatura, ALLEGRO_KEY_ENTER)) {
+				al_get_keyboard_state(&klawiatura);
+			}
+			if (options_menu.action(MENU_ACT) == 4) {
+				if (music == 1 &&  music_on == 1) {
+					al_stop_samples();
+					music_on = 0;
+				}
+				else if (music == 0 && music_on == 0) {
+					al_play_sample(theme, 0.7, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
+					music_on = 1;
+				}
+				break;
+			}
+		}
+	}
+	return -1;
+}
+
 int m_menu(void) {
 	al_play_sample(theme, 0.7, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 	//al_play_sample(shoot, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
-
 	menu main_menu;
-	float x = 1.0, y = 25.0, z = 200.0;
+	int i=0;
 	main_menu.add_action("START", 1);
-	main_menu.add_value("SPEED", &SPEED, 1.0, 3.0, 0.1);
-	main_menu.add_value("AMMO", &MAX_AMMO, 100.0, 500.0, 25.0);
-	main_menu.add_value("HEALTH", &HP, 100.0, 500.0, 50.0);
-	main_menu.add_action("EXIT", 2);
+	main_menu.add_action("OPTIONS", 2);
+	main_menu.add_action("CREDITS", 3);
+	main_menu.add_action("EXIT", 4);
 	while (!al_key_down(&klawiatura, ALLEGRO_KEY_ESCAPE)) {
 		al_wait_for_event(queue, &event);
 		if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
@@ -200,7 +275,8 @@ int m_menu(void) {
 				al_get_keyboard_state(&klawiatura);
 			}
 			if (main_menu.action(MENU_ACT) == 1) game();
-			else break;
+			if (main_menu.action(MENU_ACT) == 2) o_menu();
+			if (main_menu.action(MENU_ACT) == 4) break;
 		}
 	}
 	return -1;
