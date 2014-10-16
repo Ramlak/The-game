@@ -12,6 +12,8 @@
 #include <string>
 #include <cstdio>
 #include <cmath>
+#include <cstdlib>
+#include <ctime>
 
 
 #define BLOCK_SIZE 15
@@ -32,3 +34,5 @@
 extern float MAX_AMMO;
 extern float HP;
 extern float SPEED;
+extern int ACID;
+extern ALLEGRO_DISPLAY * okno;

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "bullet.h"
 #include "menu.h"
+#include "acid.h"
 #include <Windows.h>
 
 #define FOR(x) for (size_t i = 0; i < (x).size(); i++)
@@ -22,6 +23,7 @@ list < bullet > bullets;
 int music_on = 1;
 extern float PAN;
 extern int GUNSOUND;
+int ACID;
 
 void Message(const char * a)
 {
@@ -114,9 +116,50 @@ int game(void) {
 		if (event.type == ALLEGRO_EVENT_TIMER)
 		{
 			al_get_keyboard_state(&klawiatura);
+			if (ACID) {
+				unsigned char r, g, b;
+				int x;
+
+				FOR(players) {
+					al_unmap_rgb(players[i].color, &r, &g, &b);
+					x = rand() % 6;
+					switch (x) {
+						case 0:
+							if (r >= 3)
+								r -= 3;
+							break;
+						case 1:
+							if (r <= 250)
+								r += 3;
+							break;
+						case 2:
+							if (g >= 3)
+								g -= 3;
+							break;
+						case 3:
+							if (g <= 250)
+								g += 3;
+							break;
+						case 4:
+							if (b >= 3)
+								b -= 3;
+							break;
+						case 5:
+							if (r <= 250)
+								b += 3;
+							break;
+					}
+					players[i].color = al_map_rgb(r, g, b);
+				}
+
+			}
 			if (test_deads() == 0)
 			{
 				al_clear_to_color(al_map_rgb(0, 0, 0));
+				if (ACID) {
+					bg_draw();
+					al_draw_bitmap(bg, 0.0, 0.0, 0);
+				}
 
 				FOR(players)
 					players[i].move();
@@ -168,12 +211,18 @@ int game(void) {
 
 int o_menu(void) {
 	menu options_menu;
-	int music = 1-music_on;
+	int music = 1 - music_on;
 	{
 		std::vector<std::string> options;
 		options.push_back(std::string("ON"));
 		options.push_back(std::string("OFF"));
 		options_menu.add_enum("MUSIC", &music, 2, options);
+	}
+	{
+		std::vector<std::string> options;
+		options.push_back(std::string("NO"));
+		options.push_back(std::string("OH YEAH"));
+		options_menu.add_enum("ACID", &ACID, 2, options);
 	}
 	options_menu.add_value("SPEED", &SPEED, 1.0, 3.0, 0.1);
 	options_menu.add_value("AMMO", &MAX_AMMO, 100.0, 500.0, 25.0);
@@ -231,6 +280,8 @@ int o_menu(void) {
 }
 
 int m_menu(void) {
+	srand(time(0));
+
 	al_play_sample(theme, 0.7, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 	//al_play_sample(shoot, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 	menu main_menu;
@@ -299,10 +350,9 @@ int main(void)
 		Message("Cannot load sample!");
 	}
 
-	font = al_load_font("Times.ttf", 72, 0);
-	menu_font = al_load_font("Times.ttf", 36, 0);
-	foot_font = al_load_font("Times.ttf", FOOTER_SIZE - 4, 0);
-
+	font = al_load_font("LiberationSerif-Regular.ttf", 72, 0);
+	menu_font = al_load_font("LiberationSerif-Regular.ttf", 36, 0);
+	foot_font = al_load_font("LiberationSerif-Regular.ttf", FOOTER_SIZE - 4, 0);
 	if (!font || !foot_font)
 	{
 		MessageBox(NULL, "Cannot load font!", "Error", MB_OK);
@@ -320,6 +370,9 @@ int main(void)
 	
 	al_register_event_source(queue, al_get_display_event_source(okno));
 	al_register_event_source(queue, al_get_timer_event_source(timer));
+
+
+	bg_init();
 
 	m_menu();
 
