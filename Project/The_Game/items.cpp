@@ -1,6 +1,11 @@
 #include "stdafx.h"
 #include "bullet.h"
 
+// OPTIONS
+
+float HP = 200.0;
+float MAX_AMMO = 200.0;
+
 // BULLET
 
 void bullet::move()
@@ -59,7 +64,7 @@ void player::change_state()
 	if (this->hp <= 0)
 		this->alive = false;
 	if (ammo) {
-		if (++this->counter > 3)
+		if (++this->counter > unsigned int(600.0/MAX_AMMO))
 		{
 		this->counter = 0;
 		this->ammo += (ammo == MAX_AMMO) ? 0 : 1;

@@ -24,7 +24,9 @@
 #define THICKNESS 2
 #define FPS 300
 #define GUN_RESOLUTION 0.015
-#define MAX_AMMO 200
-#define HP 200
 #define COLOR_WHITE al_map_rgb(255, 255, 255)
 #define COLOR_BLACK al_map_rgb(0, 0, 0)
+
+//OPTIONS
+extern float MAX_AMMO;
+extern float HP;

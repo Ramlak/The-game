@@ -161,8 +161,8 @@ int m_menu(void) {
 	float x = 1.0, y = 25.0, z = 200.0;
 	main_menu.add_action("START", 1);
 	main_menu.add_value("SPEED", &x, 1.0, 3.0, 0.1);
-	main_menu.add_value("AMMO", &y, 10.0, 50.0, 2.5);
-	main_menu.add_value("HEALTH", &z, 100.0, 500.0, 50.0);
+	main_menu.add_value("AMMO", &MAX_AMMO, 100.0, 500.0, 25.0);
+	main_menu.add_value("HEALTH", &HP, 100.0, 500.0, 50.0);
 	main_menu.add_action("EXIT", 2);
 	while (!al_key_down(&klawiatura, ALLEGRO_KEY_ESCAPE)) {
 		al_wait_for_event(queue, &event);
