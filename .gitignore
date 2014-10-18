@@ -25,6 +25,8 @@ setup.exe
 *.pdb
 *.idb
 *.ilk
+*.log
+*.suo
 # OSX
 # =========================
 

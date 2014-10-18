@@ -49,7 +49,7 @@ void check_collisions()
 				players[j].v_y = v_y_1;
 
 				players[i].step();
-				players[i].step();
+				players[j].step();
 			}
 		}
 	}
