@@ -13,7 +13,7 @@ struct player
 	float x, v_x;
 	float y, v_y;
 	float gun_alpha;
-	float ammo;
+	int ammo;
 	size_t counter;
 	bool alive;
 	ALLEGRO_COLOR color;

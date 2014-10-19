@@ -31,9 +31,14 @@ void bullet::draw()
 bullet::bullet(player * Player)
 {
 	this->alive = true;
-	this->player_color = Player->color;
-	this->x = Player->x + BLOCK_SIZE / 2 + cos(Player->gun_alpha) * (BLOCK_SIZE / 2) * GUN_SIZE -1;
-	this->y = Player->y + BLOCK_SIZE / 2 - sin(Player->gun_alpha) * (BLOCK_SIZE / 2) * GUN_SIZE -1;
+	if (ACID) {
+		float r, g, b;
+		al_color_hsv_to_rgb(rand() % 6 * 60.0, 0.7, 1.0, &r, &g, &b);
+		this->player_color = al_map_rgb_f(r, g, b);
+	} else
+		this->player_color = Player->color;
+	this->x = Player->x + BLOCK_SIZE / 2 + cos(Player->gun_alpha) * (BLOCK_SIZE / 2) * GUN_SIZE -1.0;
+	this->y = Player->y + BLOCK_SIZE / 2 - sin(Player->gun_alpha) * (BLOCK_SIZE / 2) * GUN_SIZE -1.0;
 	this->v_x = BULLET_SPEED * cos(Player->gun_alpha);
 	this->v_y = -BULLET_SPEED * sin(Player->gun_alpha);
 }
@@ -155,7 +160,7 @@ void player::shoot(list < bullet > &bullets, ALLEGRO_SAMPLE * shoot)
 	if (al_key_down(this->klawiatura, this->key_shoot) && this->ammo > 0)
 	{
 			bullets.push_back(bullet(this));
-			this->ammo--;
+			--this->ammo;
 			++GUNSOUND;
 			PAN += 2.0*(this->x - MAP_SIZE/2) / MAP_SIZE;
 	}

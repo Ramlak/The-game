@@ -75,7 +75,7 @@ void draw_footer()
 {
 	FOR(players)
 	{
-		
+
 		if (players[i].alive)
 		{
 			al_draw_filled_rectangle(MAP_SIZE / players.size() * i, MAP_SIZE + 2, MAP_SIZE / players.size() * i + MAP_SIZE / players.size() * players[i].hp / HP, MAP_SIZE + FOOTER_SIZE, players[i].color);
